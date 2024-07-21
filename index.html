@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 50px 0;
+            font-size: 18px;
+            text-align: left;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <input type="file" id="fileInput">
+    <table id="leaderboard">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) {
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const contents = e.target.result;
+                const rows = contents.split('\n').map(row => row.split(','));
+                const tbody = document.querySelector('#leaderboard tbody');
+                tbody.innerHTML = '';
+
+                // Assuming the CSV has headers in the first row and name, score columns
+                rows.slice(1).sort((a, b) => b[1] - a[1]).forEach((row, index) => {
+                    const tr = document.createElement('tr');
+                    const rankCell = document.createElement('td');
+                    const nameCell = document.createElement('td');
+                    const scoreCell = document.createElement('td');
+
+                    rankCell.textContent = index + 1;
+                    nameCell.textContent = row[0];
+                    scoreCell.textContent = row[1];
+
+                    tr.appendChild(rankCell);
+                    tr.appendChild(nameCell);
+                    tr.appendChild(scoreCell);
+                    tbody.appendChild(tr);
+                });
+            };
+            reader.readAsText(file);
+        });
+    </script>
+</body>
+</html>
