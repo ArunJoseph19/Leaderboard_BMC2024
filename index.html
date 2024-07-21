@@ -12,6 +12,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             height: 100vh;
             margin: 0;
         }
@@ -47,6 +48,11 @@
         tr:hover {
             background-color: #f1f1f1;
         }
+        .update-date {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #555;
+        }
     </style>
 </head>
 <body>
@@ -63,6 +69,8 @@
     </tbody>
 </table>
 
+<div class="update-date" id="update-date"></div>
+
 <script>
     async function fetchCSV() {
         const response = await fetch('leaderboard.csv');
@@ -72,7 +80,10 @@
 
     function parseCSV(data) {
         const rows = data.split('\n').slice(1);
-        return rows.map(row => {
+        const lastRow = rows.pop().split(',');
+        const lastUpdatedDate = lastRow[3];  // Assuming the date is in the fourth column
+        console.log(lastUpdatedDate)
+        const leaderboardData = rows.map(row => {
             const cols = row.split(',');
             return {
                 rank: cols[0],
@@ -80,6 +91,7 @@
                 score: cols[2]
             };
         });
+        return { leaderboardData, lastUpdatedDate };
     }
 
     function displayLeaderboard(data) {
@@ -92,10 +104,16 @@
         });
     }
 
+    function displayUpdateDate(date) {
+        const updateDateElement = document.getElementById('update-date');
+        updateDateElement.innerText = `Last updated on ${date}`;
+    }
+
     async function loadLeaderboard() {
         const csvData = await fetchCSV();
-        const parsedData = parseCSV(csvData);
-        displayLeaderboard(parsedData);
+        const { leaderboardData, lastUpdatedDate } = parseCSV(csvData);
+        displayLeaderboard(leaderboardData);
+        displayUpdateDate(lastUpdatedDate);
     }
 
     window.onload = loadLeaderboard;
