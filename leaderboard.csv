@@ -1,11 +1,6 @@
-Team,Score
-Alice,95
-Bob,85
-Charlie,90
-David,80
-Eve,100
-Frank,75
-Grace,88
-Hank,93
-Ivy,77
-Jack,84
+Rank,Name,Score
+1,Player One,1500
+2,Player Two,1400
+3,Player Three,1300
+4,Player Four,1200
+5,Player Five,1200
