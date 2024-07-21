@@ -83,7 +83,8 @@
     function parseCSV(data) {
         const rows = data.split('\n').slice(1);
         const lastRow = rows.pop().split(',');
-        const lastUpdatedDate = lastRow[3].split(',')[0];  // Assuming the date is in the fourth column
+        console.log(lastRow)
+        const lastUpdatedDate = lastRow[3]  // Assuming the date is in the fourth column
         console.log(lastUpdatedDate)
         const leaderboardData = rows.map(row => {
             const cols = row.split(',');
