@@ -61,6 +61,7 @@
             <th>Rank</th>
             <th>Team</th>
             <th>Score</th>
+            <th>Deviation</th>
         </tr>
     </thead>
     <tbody>
@@ -87,7 +88,8 @@
             return {
                 rank: cols[0],
                 name: cols[1],
-                score: cols[2]
+                score: cols[2],
+                dev: cols[3]
             };
         });
         return { leaderboardData, lastUpdatedDate };
@@ -100,6 +102,7 @@
             newRow.insertCell(0).innerText = row.rank;
             newRow.insertCell(1).innerText = row.name;
             newRow.insertCell(2).innerText = row.score;
+            newRow.insertCell(3).innerText = row.dev;
         });
     }
 
