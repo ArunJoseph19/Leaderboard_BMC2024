@@ -1,14 +1,16 @@
-Rank,Name,Score,Deviation
-1,Invisible Cities,7486,16.76
-2,Algovenger,7536,17.95
-3,Vidyashilp Tech Explorers,8570,23.3
-4,Huskies,10368,17
-5,Traffic Kaptan,17852,19.38
-6,MathCo Innovation,29297,35.37
-7,EgdeCase,57508,40.19
-8,Path Protectors,61213,54.45
-9,GetFined,71148,43.16
-10,CSVS,134066,78.95
-11,Code Crafters,222603,88.88
-12,BT-AI,245378,97.14
-13,Urban Drive Forecasters,5240130,286.4
+Rank,Name,Cummulative Counts Deviation,Prediction Counts Deviation,Total Deviation
+1,Invisible Cities,33,0,33
+2,Algovenger,33.7,0,33.7
+3,Traffic Kaptan,36.9,0,36.9
+4,Chikni Chameli,38,0,38
+5,Huskies,39.7,0,39.7
+6,Mutthi ki Shakti,40.3,0,40.3
+7,Vidyashilp Tech Explorers,45.8,0,45.8
+8,CSVS,49.7,0,49.7
+9,Edge Case,51.5,0,51.5
+10,Get Fined,57.9,0,57.9
+11,Mathco Innovations,58.2,0,58.2
+12,Path Protectors,58.3,0,58.3
+13,Urban Drive Forecasters,69.5,0,69.5
+14,Code Crafters,79.2,0,79.2
+15,BT-AI,90.3,0,90.3
