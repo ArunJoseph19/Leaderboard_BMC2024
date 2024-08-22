@@ -54,15 +54,13 @@
     </style>
 </head>
 <body>
-<h2>Phase 1: Vehicle counts by class for turning patterns</h2>
+<h2>Phase 2: Vehicle Re-Identification</h2>
 <table id="leaderboard">
     <thead>
         <tr>
             <th>Rank</th>
             <th>Team</th>
-            <th>Cummulative Counts Deviation</th>
-            <th>Predicted Counts Deviation</th>
-            <th>Total Deviation Score</th>
+            <th>Recall Score</th>
         </tr>
     </thead>
     <tbody>
@@ -73,7 +71,7 @@
 
 <script>
     async function fetchCSV() {
-        const response = await fetch('Phase 1 Leaderboard.csv');
+        const response = await fetch('Phase 2 Leaderboard.csv');
         const data = await response.text();
         return data;
     }
@@ -89,9 +87,7 @@
             return {
                 rank: cols[0],
                 name: cols[1],
-                cumm_dev: cols[2],
-                pred_dev: cols[3],
-                total_dev: cols[4]
+                recall: cols[2],
             };
         });
         return { leaderboardData, lastUpdatedDate };
@@ -103,15 +99,13 @@
             const newRow = tableBody.insertRow();
             newRow.insertCell(0).innerText = row.rank;
             newRow.insertCell(1).innerText = row.name;
-            newRow.insertCell(2).innerText = row.cumm_dev;
-            newRow.insertCell(3).innerText = row.pred_dev;
-            newRow.insertCell(4).innerText = row.total_dev;
+            newRow.insertCell(2).innerText = row.recall;
         });
     }
 
     function displayUpdateDate(date) {
         const updateDateElement = document.getElementById('update-date');
-        updateDateElement.innerText = `Last updated on 21-08-2024`;
+        updateDateElement.innerText = `Last updated on 22-08-2024`;
     }
 
     async function loadLeaderboard() {
