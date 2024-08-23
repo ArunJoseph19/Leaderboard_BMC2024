@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Combined Leaderboard</title>
+    <title>Leaderboard</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,16 +17,12 @@
         }
         h2 {
             color: #555;
-            margin-top: 40px;
-        }
-        .container {
-            display: flex;
         }
         table {
-            width: 45%;
+            width: 80%;
             border-collapse: collapse;
             margin: 25px 0;
-            font-size: 18px;
+            font-size: 12px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         th, td {
@@ -54,124 +50,79 @@
             margin-top: 10px;
             font-size: 16px;
             color: #555;
-            text-align: center;
-            width: 100%;
         }
     </style>
 </head>
 <body>
-    <div style="width: 100%; overflow: hidden;">
-        <div style="width: 720px; float: left; margin-left: 10px;">
-            <h2>Phase 1: Vehicle Counts by Class for Turning Patterns</h2>
-            <table id="leaderboard-phase1">
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Team</th>
-                        <th>Cummulative Counts Deviation</th>
-                        <th>Predicted Counts Deviation</th>
-                        <th>Total Deviation Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-            <div class="update-date" id="update-date-phase1"></div>
-        </div>
+<h2>Vehicle counts by class for turning patterns</h2>
+<table id="leaderboard">
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Team</th>
+            <th>Cummulative Counts Deviation</th>
+            <th>Predicted Counts Deviation</th>
+            <th>Total Deviation Score</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
 
-        <div style="width: 720px; margin-left: 730px;">
-            <h2>Phase 2: Vehicle Re-Identification</h2>
-            <table id="leaderboard-phase2">
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Team</th>
-                        <th>Error in recall Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-            <div class="update-date" id="update-date-phase2"></div>
-        </div>
-    </div>
+<div class="update-date" id="update-date"></div>
 
-    <script>
-        async function fetchCSV(file) {
-            const response = await fetch(file);
-            const data = await response.text();
-            return data;
-        }
+<script>
+    async function fetchCSV() {
+        const response = await fetch('Phase 1 Leaderboard.csv');
+        const data = await response.text();
+        return data;
+    }
 
-        function parseCSVPhase1(data) {
-            const rows = data.split('\n').slice(1);
-            rows.pop();
-            const leaderboardData = rows.map(row => {
-                const cols = row.split(',');
-                return {
-                    rank: cols[0],
-                    name: cols[1],
-                    cumm_dev: cols[2],
-                    pred_dev: cols[3],
-                    total_dev: cols[4]
-                };
-            });
-            return leaderboardData;
-        }
+    function parseCSV(data) {
+        const rows = data.split('\n').slice(1);
+        const lastRow = rows.pop().split(',');
+        console.log(lastRow)
+        const lastUpdatedDate = lastRow[3]  // Assuming the date is in the fourth column
+        console.log(lastUpdatedDate)
+        const leaderboardData = rows.map(row => {
+            const cols = row.split(',');
+            return {
+                rank: cols[0],
+                name: cols[1],
+                cumm_dev: cols[2],
+                pred_dev: cols[3],
+                total_dev: cols[4]
+            };
+        });
+        return { leaderboardData, lastUpdatedDate };
+    }
 
-        function parseCSVPhase2(data) {
-            const rows = data.split('\n').slice(1);
-            rows.pop();
-            const leaderboardData = rows.map(row => {
-                const cols = row.split(',');
-                return {
-                    rank: cols[0],
-                    name: cols[1],
-                    recall: cols[2]
-                };
-            });
-            return leaderboardData;
-        }
+    function displayLeaderboard(data) {
+        const tableBody = document.getElementById('leaderboard').getElementsByTagName('tbody')[0];
+        data.forEach(row => {
+            const newRow = tableBody.insertRow();
+            newRow.insertCell(0).innerText = row.rank;
+            newRow.insertCell(1).innerText = row.name;
+            newRow.insertCell(2).innerText = row.cumm_dev;
+            newRow.insertCell(3).innerText = row.pred_dev;
+            newRow.insertCell(4).innerText = row.total_dev;
+        });
+    }
 
-        function displayLeaderboardPhase1(data) {
-            const tableBody = document.getElementById('leaderboard-phase1').getElementsByTagName('tbody')[0];
-            data.forEach(row => {
-                const newRow = tableBody.insertRow();
-                newRow.insertCell(0).innerText = row.rank;
-                newRow.insertCell(1).innerText = row.name;
-                newRow.insertCell(2).innerText = row.cumm_dev;
-                newRow.insertCell(3).innerText = row.pred_dev;
-                newRow.insertCell(4).innerText = row.total_dev;
-            });
-        }
+    function displayUpdateDate(date) {
+        const updateDateElement = document.getElementById('update-date');
+        updateDateElement.innerText = `Last updated on 23-08-2024`;
+    }
 
-        function displayLeaderboardPhase2(data) {
-            const tableBody = document.getElementById('leaderboard-phase2').getElementsByTagName('tbody')[0];
-            data.forEach(row => {
-                const newRow = tableBody.insertRow();
-                newRow.insertCell(0).innerText = row.rank;
-                newRow.insertCell(1).innerText = row.name;
-                newRow.insertCell(2).innerText = row.recall;
-            });
-        }
+    async function loadLeaderboard() {
+        const csvData = await fetchCSV();
+        const { leaderboardData, lastUpdatedDate } = parseCSV(csvData);
+        displayLeaderboard(leaderboardData);
+        displayUpdateDate(lastUpdatedDate);
+    }
 
-        function displayUpdateDatePhase2(date) {
-            const updateDateElement = document.getElementById('update-date-phase2');
-            updateDateElement.innerText = `Last updated on ${date}`;
-        }
-
-        async function loadLeaderboards() {
-            const csvDataPhase1 = await fetchCSV('Phase 1 Leaderboard.csv');
-            const leaderboardDataPhase1 = parseCSVPhase1(csvDataPhase1);
-            displayLeaderboardPhase1(leaderboardDataPhase1);
-
-            const csvDataPhase2 = await fetchCSV('Phase 2 Leaderboard.csv');
-            const leaderboardDataPhase2 = parseCSVPhase2(csvDataPhase2);
-            displayLeaderboardPhase2(leaderboardDataPhase2);
-            displayUpdateDatePhase2('23-08-2024');  // Replace with dynamic date if available
-        }
-        window.onload = loadLeaderboards;
-    </script>
+    window.onload = loadLeaderboard;
+</script>
 
 </body>
 </html>
