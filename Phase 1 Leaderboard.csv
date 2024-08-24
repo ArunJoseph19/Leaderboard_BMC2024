@@ -1,22 +1,19 @@
 Rank,Name,Cummulative Counts Deviation,Prediction Counts Deviation,Total Deviation
-1,Get Fined,20.79,28.41,24.60
+1,Get Fined,20.79,28.41,24.6
 2,Traffic Eye,21.75,29.92,25.84
 3,Invisible Cities,22.87,29.21,26.04
 4,Tensor Squad,29.84,26.77,28.31
 5,Algovenger,27.59,47.06,37.33
-6,CSVS,38.71,38.29,38.50
+6,CSVS,38.71,38.29,38.5
 7,Mathco Innovations,50.17,43.29,46.73
 8,Vidyashilp Tech Explorers,39.65,64.59,52.12
 9,Traffic Kaptan,60.93,59.32,60.13
-10,Quanto Crusaders,67.65,60.14,63.90
-11,Edge Case,51.50,100.00,75.75
+10,Quanto Crusaders,67.65,60.14,63.9
+11,Edge Case,51.5,100,75.75
 12,Code Crafters,75.01,77.48,76.25
-13,Path Protectors,58.30,100.00,79.15
-14,Urban Drive Forecasters,69.50,100.00,84.75
+13,Path Protectors,58.3,100,79.15
+14,Urban Drive Forecasters,69.5,100,84.75
 15,Tokyo,95.51,89.82,92.67
-16,BT-AI,90.30,100.00,95.15
-17,Huskies,100.00,92.85,96.43
-18,AI Code,100.00,92.85,96.43
-,,,,
-,,,,
-,,,,
+16,BT-AI,90.3,100,95.15
+17,Huskies,100,92.85,96.43
+18,AI Code,100,92.85,96.43
