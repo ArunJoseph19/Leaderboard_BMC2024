@@ -30,12 +30,6 @@
             border-bottom: 1px solid #ddd;
             text-align: center;
         }
-        th {
-            background-color: #006599;
-            color: #ffffff;
-            text-transform: uppercase;
-            letter-spacing: 0.1rem;
-        }
         tr {
             background-color: #ffffff;
             transition: background-color 0.3s ease;
@@ -54,12 +48,9 @@
     </style>
 </head>
 <body>
-<!-- <h2>Finalists for Phase 1</h2> -->
 <table id="leaderboard">
     <thead>
-        <!-- <tr>
-            <th>Finalists</th>
-        </tr> -->
+        <!-- No header for the table -->
     </thead>
     <tbody>
     </tbody>
@@ -75,19 +66,16 @@
     }
 
     function parseCSV(data) {
-        const rows = data.split('\n').slice(1);
+        const rows = data.split('\n').slice(1); // Assuming first row is header
         const lastRow = rows.pop().split(',');
-        console.log(lastRow)
-        const lastUpdatedDate = lastRow[3]  // Assuming the date is in the fourth column
-        console.log(lastUpdatedDate)
+        const lastUpdatedDate = lastRow[3];  // Assuming the date is in the fourth column
+
         const leaderboardData = rows.map(row => {
             const cols = row.split(',');
+            // Combine rank and name, remove extra quotes
+            const entry = cols.join(',').replace(/['"]+/g, '');
             return {
-                rank: cols[0]
-                // name: cols[1],
-                // cumm_dev: cols[2],
-                // pred_dev: cols[3],
-                // total_dev: cols[4]
+                entry: entry
             };
         });
         return { leaderboardData, lastUpdatedDate };
@@ -97,24 +85,20 @@
         const tableBody = document.getElementById('leaderboard').getElementsByTagName('tbody')[0];
         data.forEach(row => {
             const newRow = tableBody.insertRow();
-            newRow.insertCell(0).innerText = row.rank;
-            // newRow.insertCell(1).innerText = row.name;
-            // newRow.insertCell(2).innerText = row.cumm_dev;
-            // newRow.insertCell(3).innerText = row.pred_dev;
-            // newRow.insertCell(4).innerText = row.total_dev;
+            newRow.insertCell(0).innerText = row.entry; // Display both rank and team name together
         });
     }
 
     function displayUpdateDate(date) {
         const updateDateElement = document.getElementById('update-date');
-        updateDateElement.innerText = `Last updated on 05-09-2024`;
+        updateDateElement.innerText = `Last updated on ${date}`;
     }
 
     async function loadLeaderboard() {
         const csvData = await fetchCSV();
         const { leaderboardData, lastUpdatedDate } = parseCSV(csvData);
         displayLeaderboard(leaderboardData);
-        // displayUpdateDate(lastUpdatedDate);
+        displayUpdateDate(lastUpdatedDate);
     }
 
     window.onload = loadLeaderboard;
