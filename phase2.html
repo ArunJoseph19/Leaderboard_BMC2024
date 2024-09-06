@@ -87,9 +87,7 @@
             return {
                 rank: cols[0],
                 name: cols[1],
-                cumm_dev: cols[2],
-                pred_dev: cols[3],
-                total_dev: cols[4]
+                cumm_dev: cols[2]
             };
         });
         return { leaderboardData, lastUpdatedDate };
@@ -102,8 +100,6 @@
             newRow.insertCell(0).innerText = row.rank;
             newRow.insertCell(1).innerText = row.name;
             newRow.insertCell(2).innerText = row.cumm_dev;
-            newRow.insertCell(3).innerText = row.pred_dev;
-            newRow.insertCell(4).innerText = row.total_dev;
         });
     }
 
